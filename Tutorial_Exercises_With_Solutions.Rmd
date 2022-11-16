@@ -187,7 +187,7 @@ data.frame(ccode = country_codes_vec, agree_share = agreement_scores) %>% arrang
 
 ### Conclusion Exercise 2: Iterate over multiple inputs with Purrr and Furrr 
 
-With the above example we managed to decrease the execution time by using the Furrr package. However, it should be noted that it was only 1.5 times faster than using Purrr. This can be explained by Amdahl's Law, which states that there are diminishing returns in parallelization, depending on the proportion of your code that can be executed in parallel.
+With the above example we managed to decrease the execution time by using the Furrr package. However, it should be noted that the code runs only a bit faster than when we used Purrr. This can be explained by Amdahl's Law, which states that there are diminishing returns in parallelization, depending on the proportion of your code that can be executed in parallel.
 
 
 ## Exercise 3: "Bootstrapping coefficient values for hypothesis testing (Serial implementation)"
