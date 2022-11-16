@@ -256,9 +256,9 @@ toc(log = TRUE)
 head(sim_serial)
 ```
 
-### Conclusion: Exercise 3 Bootstrapping coefficient values for hypothesis testing
+### Conclusion Exercise 3: Bootstrapping coefficient values for hypothesis testing
 
-This example shows that the time it takes to do the 10,000-iteration simulation is approximately 4 times faster when using parallel implementation with the package Future.apply. This example can also be evaluated with the package Furrr and we would have similar results. Furthermore, we will analyze the CPU history in our laptops to see what is happening while using Future package.
+This example shows that the time it takes to do the 10,000-iteration simulation is approximately 4 times faster when using parallel implementation with the package Future.apply. This example can also be evaluated with the package Furrr and we would have similar results. Furthermore, we will analyze the CPU history in our laptops to see what is happening while using the Future package.
 
 
 
