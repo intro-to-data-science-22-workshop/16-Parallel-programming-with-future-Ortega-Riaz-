@@ -77,7 +77,7 @@ x<-value(mycorpus)
 print(x[3])
 ```
 ### Conclusions Exercise 1: Tokenization
-This example shows that the time it takes to tokenise and eliminate the "stop words" is approximately 10 times faster when using parallel implementation with Future. It should also be noted that only minor adjustments were made to the code to move to parallel processing. Furthermore, we will analyze the CPU history in our laptops to see what is happening while using Future package.
+This example shows that the time it takes to tokenise and eliminate the "stop words" is significantly faster when using parallel implementation with Future. It should also be noted that only minor adjustments were made to the code to move to parallel processing. Furthermore, we will analyze the CPU history in our laptops to see what is happening while using Future package.
 
 
 
