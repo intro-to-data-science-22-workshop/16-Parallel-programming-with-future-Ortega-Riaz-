@@ -399,8 +399,8 @@ detectCores() function:</p>
 computer to utilize and therefore how ‘fast’ your system can operate.
 You can adjust your expectations accordingly.</p>
 </div>
-<div id="exercise-1-tokenization--serial-implementation" class="section level2">
-<h2>Exercise 1: Tokenization- Serial implementation</h2>
+<div id="exercise-1-tokenization-serial-implementation" class="section level2">
+<h2>Exercise 1: “Tokenization (Serial implementation)”</h2>
 <p>For this exercise we will use a dataset that contains the titles of
 23,481 fake news in order to separate the text into smaller units called
 tokens and remove words commonly used in the English language, such as
@@ -425,7 +425,7 @@ mycorpus&lt;-tokens(fake_news$text,
   tokens_remove(pattern = stopwords(&quot;en&quot;, source = &quot;marimo&quot;))</code></pre>
 <pre><code>## Warning: NA is replaced by empty string</code></pre>
 <pre class="r"><code>toc()</code></pre>
-<pre><code>## 12.19 sec elapsed</code></pre>
+<pre><code>## 16.8 sec elapsed</code></pre>
 <pre class="r"><code>print(mycorpus[3])</code></pre>
 <pre><code>## Tokens consisting of 1 document.
 ## text3 :
@@ -434,8 +434,9 @@ mycorpus&lt;-tokens(fake_news$text,
 ## [11] &quot;Donald&quot;     &quot;Trump&quot;     
 ## [ ... and 323 more ]</code></pre>
 </div>
-<div id="exercise-1-tokenization--parallel-implementation-with-future" class="section level2">
-<h2>Exercise 1: Tokenization- Parallel implementation with Future</h2>
+<div id="exercise-1-tokenization-parallel-implementation-with-future" class="section level2">
+<h2>Exercise 1: “Tokenization (Parallel implementation with
+Future)”</h2>
 <pre class="r"><code>plan(multisession)
 data_ML&lt;- read_csv(&#39;C:\\Users\\feror\\Downloads\\df_final (1).csv&#39;)</code></pre>
 <pre><code>## New names:
@@ -455,7 +456,7 @@ mycorpus&lt;-future({tokens(fake_news$text,
              remove_symbol = TRUE)%&gt;% 
   tokens_remove(pattern = stopwords(&quot;en&quot;, source = &quot;marimo&quot;))}) 
 toc()</code></pre>
-<pre><code>## 0.93 sec elapsed</code></pre>
+<pre><code>## 0.79 sec elapsed</code></pre>
 <pre class="r"><code>x&lt;-value(mycorpus)</code></pre>
 <pre><code>## Warning: NA is replaced by empty string</code></pre>
 <pre class="r"><code>print(x[3])</code></pre>
@@ -465,9 +466,8 @@ toc()</code></pre>
 ##  [6] &quot;Clarke&quot;     &quot;considered&quot; &quot;Homeland&quot;   &quot;Security&quot;   &quot;Secretary&quot; 
 ## [11] &quot;Donald&quot;     &quot;Trump&quot;     
 ## [ ... and 323 more ]</code></pre>
-</div>
-<div id="conclusions-exercise-1-tokenization" class="section level2">
-<h2>Conclusions Exercise 1: Tokenization</h2>
+<div id="conclusions-exercise-1-tokenization" class="section level4">
+<h4>Conclusions Exercise 1: Tokenization</h4>
 <p>This example shows that the time it takes to tokenise and eliminate
 the “stop words” is approximately 10 times faster when using parallel
 implementation with Future. It should also be noted that only minor
@@ -475,8 +475,9 @@ adjustments were made to the code to move to parallel processing.
 Furthermore, we will analyze the CPU history in our laptops to see what
 is happening while using Future package.</p>
 </div>
-<div id="example-iterate-over-multiple-inputs-with-purrr" class="section level2">
-<h2>Example: “Iterate over multiple inputs with Purrr”</h2>
+</div>
+<div id="exercise-2-iterate-over-multiple-inputs-with-purrr" class="section level2">
+<h2>Exercise 2: “Iterate over multiple inputs with Purrr”</h2>
 <p>For this example we use the “unvotes” package that provides data on
 the voting history of countries in the United Nations General Assembly.
 This package contains three datasets: un_votes, providing the history of
@@ -532,7 +533,7 @@ country_codes_vec &lt;- unvotes::un_votes %&gt;%
 
 agreement_scores &lt;- map_dbl(country_codes_vec, ~ votes_agreement_calculator(year_min = 2000, country1 = &quot;US&quot;, country2 = .x))
 toc()</code></pre>
-<pre><code>## 10.92 sec elapsed</code></pre>
+<pre><code>## 15.31 sec elapsed</code></pre>
 <pre class="r"><code>data.frame(ccode = country_codes_vec, agree_share = agreement_scores) %&gt;% arrange(desc(agree_share)) %&gt;% slice_head(n = 3)</code></pre>
 <pre><code>##   ccode agree_share
 ## 1    IL   0.7947720
@@ -583,16 +584,15 @@ country_codes_vec &lt;- unvotes::un_votes %&gt;%
 
 agreement_scores &lt;- future_map_dbl(country_codes_vec, ~ votes_agreement_calculator(year_min = 2000, country1 = &quot;US&quot;, country2 = .x))
 toc()</code></pre>
-<pre><code>## 8.93 sec elapsed</code></pre>
+<pre><code>## 15.22 sec elapsed</code></pre>
 <pre class="r"><code>data.frame(ccode = country_codes_vec, agree_share = agreement_scores) %&gt;% arrange(desc(agree_share)) %&gt;% slice_head(n = 3)</code></pre>
 <pre><code>##   ccode agree_share
 ## 1    IL   0.7947720
 ## 2    FM   0.7361791
 ## 3    PW   0.6914974</code></pre>
-</div>
-<div id="conclusions-exercise-2-iterate-over-multiple-inputs-with-purrr-and-furrr" class="section level2">
-<h2>Conclusions Exercise 2: “Iterate over multiple inputs with Purrr and
-Furrr”</h2>
+<div id="conclusion-exercise-2-iterate-over-multiple-inputs-with-purrr-and-furrr" class="section level4">
+<h4>Conclusion Exercise 2: Iterate over multiple inputs with Purrr and
+Furrr</h4>
 <p>With the above example we managed to decrease the execution time by
 using the Furrr package. However, it should be noted that it was only
 1.5 times faster than using Purrr. This can be explained by Amdahl’s
@@ -600,9 +600,10 @@ Law, which states that there are diminishing returns in parallelization,
 depending on the proportion of your code that can be executed in
 parallel.</p>
 </div>
-<div id="exercise-3bootstrapping-coefficient-values-for-hypothesis-testing-serial-implementation" class="section level2">
-<h2>Exercise 3:Bootstrapping coefficient values for hypothesis testing
-(Serial implementation)</h2>
+</div>
+<div id="exercise-3-bootstrapping-coefficient-values-for-hypothesis-testing-serial-implementation" class="section level2">
+<h2>Exercise 3: “Bootstrapping coefficient values for hypothesis testing
+(Serial implementation)”</h2>
 <p>For the last exercise we will create a fake data set (fake_data) and
 specifying a bootstrapping function (bootstrp()). This function will
 draw a sample of 10,000 observations from the the data set (with
@@ -635,7 +636,7 @@ bootstrp =
 ## 10,000-iteration simulation
 sim_serial = lapply(1:1e4, bootstrp) %&gt;% bind_rows()
 toc(log = TRUE)</code></pre>
-<pre><code>## 72.49 sec elapsed</code></pre>
+<pre><code>## 105.99 sec elapsed</code></pre>
 <pre class="r"><code>head(sim_serial)</code></pre>
 <pre><code>## # A tibble: 6 × 1
 ##   x_coef
@@ -647,9 +648,9 @@ toc(log = TRUE)</code></pre>
 ## 5   2.00
 ## 6   2.00</code></pre>
 </div>
-<div id="exercise-3bootstrapping-coefficient-values-for-hypothesis-testing-parallel-implementation" class="section level2">
-<h2>Exercise 3:Bootstrapping coefficient values for hypothesis testing
-(Parallel implementation)</h2>
+<div id="exercise-3-bootstrapping-coefficient-values-for-hypothesis-testing-parallel-implementation" class="section level2">
+<h2>Exercise 3: “Bootstrapping coefficient values for hypothesis testing
+(Parallel implementation)”</h2>
 <pre class="r"><code>## Set seed (for reproducibility)
 plan(multisession)
 set.seed(1234)
@@ -677,7 +678,7 @@ bootstrp =
 ## 10,000-iteration simulation
 sim_serial = future_lapply(1:1e4, bootstrp,future.seed=123L) %&gt;% bind_rows()
 toc(log = TRUE)</code></pre>
-<pre><code>## 29.03 sec elapsed</code></pre>
+<pre><code>## 33.94 sec elapsed</code></pre>
 <pre class="r"><code>head(sim_serial)</code></pre>
 <pre><code>## # A tibble: 6 × 1
 ##   x_coef
@@ -688,15 +689,16 @@ toc(log = TRUE)</code></pre>
 ## 4   1.99
 ## 5   2.01
 ## 6   1.98</code></pre>
-</div>
-<div id="conclusion-exercise-3" class="section level2">
-<h2>Conclusion Exercise 3</h2>
+<div id="conclusion-exercise-3-bootstrapping-coefficient-values-for-hypothesis-testing" class="section level4">
+<h4>Conclusion: Exercise 3 Bootstrapping coefficient values for
+hypothesis testing</h4>
 <p>This example shows that the time it takes to do the 10,000-iteration
 simulation is approximately 4 times faster when using parallel
 implementation with the package Future.apply. This example can also be
 evaluated with the package Furrr and we would have similar results.
 Furthermore, we will analyze the CPU history in our laptops to see what
 is happening while using Future package.</p>
+</div>
 </div>
 
 

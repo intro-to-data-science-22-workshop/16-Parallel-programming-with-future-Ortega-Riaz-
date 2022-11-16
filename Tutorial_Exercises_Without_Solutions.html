@@ -409,8 +409,8 @@ detectCores() function:</p>
 computer to utilize and therefore how ‘fast’ your system can operate.
 You can adjust your expectations accordingly.</p>
 </div>
-<div id="exercise-1-tokenization--serial-implementation" class="section level2">
-<h2>Exercise 1: Tokenization- Serial implementation</h2>
+<div id="exercise-1-tokenization-serial-implementation" class="section level2">
+<h2>Exercise 1: “Tokenization (Serial implementation)”</h2>
 <p>For this exercise we will use a dataset that contains the titles of
 23,481 fake news in order to separate the text into smaller units called
 tokens and remove words commonly used in the English language, such as
@@ -438,7 +438,7 @@ mycorpus&lt;-tokens(fake_news$text,
   tokens_remove(pattern = stopwords(&quot;en&quot;, source = &quot;marimo&quot;))</code></pre>
 <pre><code>## Warning: NA is replaced by empty string</code></pre>
 <pre class="r"><code>toc()</code></pre>
-<pre><code>## 11.49 sec elapsed</code></pre>
+<pre><code>## 17.44 sec elapsed</code></pre>
 <pre class="r"><code>print(mycorpus[3])</code></pre>
 <pre><code>## Tokens consisting of 1 document.
 ## text3 :
@@ -446,15 +446,15 @@ mycorpus&lt;-tokens(fake_news$text,
 ##  [6] &quot;Clarke&quot;     &quot;considered&quot; &quot;Homeland&quot;   &quot;Security&quot;   &quot;Secretary&quot; 
 ## [11] &quot;Donald&quot;     &quot;Trump&quot;     
 ## [ ... and 323 more ]</code></pre>
-</div>
-<div id="question-1-use-the-future-package-to-evaluate-the-previous-code-in-parallel" class="section level2">
-<h2>Question 1: Use the future package to evaluate the previous code in
-parallel</h2>
+<div id="question-1-use-the-future-package-to-evaluate-the-previous-code-in-parallel" class="section level4">
+<h4>Question 1: Use the future package to evaluate the previous code in
+parallel</h4>
 <pre class="r"><code>##Write your CODE HERE</code></pre>
 </div>
-<div id="question-2-what-can-we-conclude" class="section level2">
-<h2>Question 2: What can we conclude?</h2>
+<div id="question-2-what-can-we-conclude" class="section level4">
+<h4>Question 2: What can we conclude?</h4>
 <pre class="r"><code>##Write your answer here: </code></pre>
+</div>
 </div>
 <div id="exercise-2-iterate-over-multiple-inputs-with-purrr" class="section level2">
 <h2>Exercise 2: “Iterate over multiple inputs with Purrr”</h2>
@@ -513,26 +513,26 @@ country_codes_vec &lt;- unvotes::un_votes %&gt;%
 
 agreement_scores &lt;- map_dbl(country_codes_vec, ~ votes_agreement_calculator(year_min = 2000, country1 = &quot;US&quot;, country2 = .x))
 toc()</code></pre>
-<pre><code>## 10.54 sec elapsed</code></pre>
+<pre><code>## 15.87 sec elapsed</code></pre>
 <pre class="r"><code>data.frame(ccode = country_codes_vec, agree_share = agreement_scores) %&gt;% arrange(desc(agree_share)) %&gt;% slice_head(n = 3)</code></pre>
 <pre><code>##   ccode agree_share
 ## 1    IL   0.7947720
 ## 2    FM   0.7361791
 ## 3    PW   0.6914974</code></pre>
-</div>
-<div id="question-1-use-the-future-package-to-evaluate-the-previous-code-in-parallel-1" class="section level2">
-<h2>Question 1: Use the future package to evaluate the previous code in
-parallel</h2>
+<div id="question-1-use-the-future-package-to-evaluate-the-previous-code-in-parallel-1" class="section level4">
+<h4>Question 1: Use the future package to evaluate the previous code in
+parallel</h4>
 <pre class="r"><code>##Write your CODE HERE</code></pre>
 </div>
-<div id="question-2-what-can-we-conclude-1" class="section level2">
-<h2>Question 2: What can we conclude?</h2>
+<div id="question-2-what-can-we-conclude-1" class="section level4">
+<h4>Question 2: What can we conclude?</h4>
 <pre class="r"><code>##Write your answer here: </code></pre>
 </div>
+</div>
 <div id="exercise-3bootstrapping-coefficient-values-for-hypothesis-testing-serial-implementation" class="section level2">
-<h2>Exercise 3:Bootstrapping coefficient values for hypothesis testing
-(Serial implementation)</h2>
-<p>For the last excersice we will create a fake data set (fake_data) and
+<h2>Exercise 3:“Bootstrapping coefficient values for hypothesis testing
+(Serial implementation)”</h2>
+<p>For the last exercise we will create a fake data set (fake_data) and
 specifying a bootstrapping function (bootstrp()). This function will
 draw a sample of 10,000 observations from the the data set (with
 replacement), fit a regression, and then extract the coefficient on the
@@ -563,7 +563,7 @@ bootstrp =
 ## 10,000-iteration simulation
 sim_serial = lapply(1:1e4, bootstrp) %&gt;% bind_rows()
 toc(log = TRUE)</code></pre>
-<pre><code>## 78.47 sec elapsed</code></pre>
+<pre><code>## 114.69 sec elapsed</code></pre>
 <pre class="r"><code>head(sim_serial)</code></pre>
 <pre><code>## # A tibble: 6 × 1
 ##   x_coef
@@ -574,15 +574,15 @@ toc(log = TRUE)</code></pre>
 ## 4   1.98
 ## 5   2.00
 ## 6   2.00</code></pre>
-</div>
-<div id="question-1-use-the-future-package-to-evaluate-the-previous-code-in-parallel-2" class="section level2">
-<h2>Question 1: Use the future package to evaluate the previous code in
-parallel</h2>
+<div id="question-1-use-the-future-package-to-evaluate-the-previous-code-in-parallel-2" class="section level4">
+<h4>Question 1: Use the future package to evaluate the previous code in
+parallel</h4>
 <pre class="r"><code>##Write your CODE HERE</code></pre>
 </div>
-<div id="question-2-what-can-we-conclude-2" class="section level2">
-<h2>Question 2: What can we conclude?</h2>
+<div id="question-2-what-can-we-conclude-2" class="section level4">
+<h4>Question 2: What can we conclude?</h4>
 <pre class="r"><code>##Write your answer here: </code></pre>
+</div>
 </div>
 
 

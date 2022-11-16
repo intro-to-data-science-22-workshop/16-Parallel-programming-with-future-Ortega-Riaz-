@@ -2,7 +2,11 @@
 title: "Tutorial Exercises_without_solutions"
 author: "Ma. Fernanda Ortega and Danial Riaz"
 date: "2022-11-16"
-output: html_document
+output:
+    html_document:
+    toc: true
+    theme: united
+  
 ---
 
 ```{r setup, include=FALSE}
@@ -46,7 +50,7 @@ detectCores()
 This will indicate the number of CPU cores you have available on your computer to utilize and therefore how 'fast' your system can operate. You can adjust your expectations accordingly. 
 
 
-## Exercise 1: Tokenization- Serial implementation
+## Exercise 1: "Tokenization (Serial implementation)"
 For this exercise we will use a dataset that contains the titles of 23,481 fake news in order to separate the text into smaller units called tokens and remove words commonly used in the English language, such as "the", "is" and "and".
 
 
@@ -68,15 +72,16 @@ toc()
 print(mycorpus[3])
 ```
 
-## Question 1: Use the future package to evaluate the previous code in parallel
+#### Question 1: Use the future package to evaluate the previous code in parallel
 ```{r}
 ##Write your CODE HERE
 ```
 
-## Question 2: What can we conclude?
+#### Question 2: What can we conclude?
 ```{r}
 ##Write your answer here: 
 ```
+
 
 ## Exercise 2: "Iterate over multiple inputs with Purrr" 
 
@@ -85,7 +90,6 @@ For this example we will use the "unvotes" package that provides data on the vot
 The first step is to create a function that takes country identifiers as well as a year_min argument as inputs and that returns the share of agreement in voting between any two specified countries as numeric value, for a time period specified with year >= year_min.
 
 Secondly, we used the unique codes of the countries to apply the function "map_dbl" and find out which three countries on average agreed the most with the US from a given year.
-
 
 ```{r}
 plan(sequential)
@@ -133,20 +137,20 @@ toc()
 data.frame(ccode = country_codes_vec, agree_share = agreement_scores) %>% arrange(desc(agree_share)) %>% slice_head(n = 3)
 ```
 
-## Question 1: Use the future package to evaluate the previous code in parallel
+#### Question 1: Use the future package to evaluate the previous code in parallel 
 ```{r}
 ##Write your CODE HERE
 ```
 
-## Question 2: What can we conclude?
+#### Question 2: What can we conclude?
 ```{r}
 ##Write your answer here: 
 ```
 
 
-## Exercise 3:Bootstrapping coefficient values for hypothesis testing (Serial implementation)
+## Exercise 3:"Bootstrapping coefficient values for hypothesis testing (Serial implementation)"
 
-For the last excersice we will create a fake data set (fake_data) and specifying a bootstrapping function (bootstrp()). This function will draw a sample of 10,000 observations from the the data set (with replacement), fit a regression, and then extract the coefficient on the x variable. 
+For the last exercise we will create a fake data set (fake_data) and specifying a bootstrapping function (bootstrp()). This function will draw a sample of 10,000 observations from the the data set (with replacement), fit a regression, and then extract the coefficient on the x variable. 
 ```{r}
 ## Set seed (for reproducibility)
 set.seed(1234)
@@ -176,12 +180,12 @@ sim_serial = lapply(1:1e4, bootstrp) %>% bind_rows()
 toc(log = TRUE)
 head(sim_serial)
 ```
-## Question 1: Use the future package to evaluate the previous code in parallel
+#### Question 1: Use the future package to evaluate the previous code in parallel
 ```{r}
 ##Write your CODE HERE
 ```
 
-## Question 2: What can we conclude?
+#### Question 2: What can we conclude?
 ```{r}
 ##Write your answer here: 
 ```
