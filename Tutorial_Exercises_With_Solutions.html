@@ -410,7 +410,7 @@ mycorpus&lt;-tokens(data_ML$text,
              remove_symbol = TRUE)%&gt;% 
   tokens_remove(pattern = stopwords(&quot;en&quot;, source = &quot;marimo&quot;))
 toc()</code></pre>
-<pre><code>## 18.25 sec elapsed</code></pre>
+<pre><code>## 17.56 sec elapsed</code></pre>
 <pre class="r"><code>print(mycorpus[3])</code></pre>
 <pre><code>## Tokens consisting of 1 document.
 ## text3 :
@@ -431,7 +431,7 @@ mycorpus&lt;-future({tokens(data_ML$text,
              remove_symbol = TRUE)%&gt;% 
   tokens_remove(pattern = stopwords(&quot;en&quot;, source = &quot;marimo&quot;))}) 
 toc()</code></pre>
-<pre><code>## 2.28 sec elapsed</code></pre>
+<pre><code>## 0.77 sec elapsed</code></pre>
 <pre class="r"><code>x&lt;-value(mycorpus)
 print(x[3])</code></pre>
 <pre><code>## Tokens consisting of 1 document.
@@ -507,7 +507,7 @@ country_codes_vec &lt;- unvotes::un_votes %&gt;%
 
 agreement_scores &lt;- map_dbl(country_codes_vec, ~ votes_agreement_calculator(year_min = 2000, country1 = &quot;US&quot;, country2 = .x))
 toc()</code></pre>
-<pre><code>## 10.61 sec elapsed</code></pre>
+<pre><code>## 10.53 sec elapsed</code></pre>
 <pre class="r"><code>data.frame(ccode = country_codes_vec, agree_share = agreement_scores) %&gt;% arrange(desc(agree_share)) %&gt;% slice_head(n = 3)</code></pre>
 <pre><code>##   ccode agree_share
 ## 1    IL   0.7947720
@@ -558,7 +558,7 @@ country_codes_vec &lt;- unvotes::un_votes %&gt;%
 
 agreement_scores &lt;- future_map_dbl(country_codes_vec, ~ votes_agreement_calculator(year_min = 2000, country1 = &quot;US&quot;, country2 = .x))
 toc()</code></pre>
-<pre><code>## 8.36 sec elapsed</code></pre>
+<pre><code>## 8.01 sec elapsed</code></pre>
 <pre class="r"><code>data.frame(ccode = country_codes_vec, agree_share = agreement_scores) %&gt;% arrange(desc(agree_share)) %&gt;% slice_head(n = 3)</code></pre>
 <pre><code>##   ccode agree_share
 ## 1    IL   0.7947720
@@ -579,10 +579,9 @@ executed in parallel.</p>
 <h2>Exercise 3: “Bootstrapping coefficient values for hypothesis testing
 (Serial implementation)”</h2>
 <p>For the last exercise we will create a fake data set (fake_data) and
-specifying a bootstrapping function (bootstrp()). This function will
-draw a sample of 10,000 observations from the the data set (with
-replacement), fit a regression, and then extract the coefficient on the
-x variable.</p>
+specify a bootstrapping function (bootstrp()). This function will draw a
+sample of 10,000 observations from the data set (with replacement), fit
+a regression, and then extract the coefficient on the x variable.</p>
 <pre class="r"><code>plan(sequential)
 ## Set seed (for reproducibility)
 set.seed(1234)
@@ -610,7 +609,7 @@ bootstrp =
 ## 10,000-iteration simulation
 sim_serial = lapply(1:1e4, bootstrp) %&gt;% bind_rows()
 toc(log = TRUE)</code></pre>
-<pre><code>## 71.43 sec elapsed</code></pre>
+<pre><code>## 71.28 sec elapsed</code></pre>
 <pre class="r"><code>head(sim_serial)</code></pre>
 <pre><code>## # A tibble: 6 × 1
 ##   x_coef
@@ -652,7 +651,7 @@ bootstrp =
 ## 10,000-iteration simulation
 sim_serial = future_lapply(1:1e4, bootstrp,future.seed=123L) %&gt;% bind_rows()
 toc(log = TRUE)</code></pre>
-<pre><code>## 29.5 sec elapsed</code></pre>
+<pre><code>## 28.28 sec elapsed</code></pre>
 <pre class="r"><code>head(sim_serial)</code></pre>
 <pre><code>## # A tibble: 6 × 1
 ##   x_coef

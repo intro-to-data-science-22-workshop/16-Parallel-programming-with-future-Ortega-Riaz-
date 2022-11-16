@@ -192,7 +192,7 @@ With the above example we managed to decrease the execution time by using the Fu
 
 ## Exercise 3: "Bootstrapping coefficient values for hypothesis testing (Serial implementation)"
 
-For the last exercise we will create a fake data set (fake_data) and specifying a bootstrapping function (bootstrp()). This function will draw a sample of 10,000 observations from the the data set (with replacement), fit a regression, and then extract the coefficient on the x variable. 
+For the last exercise we will create a fake data set (fake_data) and specify a bootstrapping function (bootstrp()). This function will draw a sample of 10,000 observations from the data set (with replacement), fit a regression, and then extract the coefficient on the x variable. 
 ```{r}
 plan(sequential)
 ## Set seed (for reproducibility)
