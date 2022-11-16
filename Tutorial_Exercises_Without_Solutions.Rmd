@@ -1,0 +1,189 @@
+---
+title: "Tutorial Exercises_without_solutions"
+author: "Ma. Fernanda Ortega and Danial Riaz"
+date: "2022-11-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Install necessary packages
+
+```{r}
+#install.packages("tictoc")
+#install.packages("future.apply")
+#install.packages("furrr")
+#install.packages("tidyverse")
+#install.packages("stopwords")
+#install.packages("quanteda")
+#install.packages("quanteda.textstats")
+```
+
+
+## Load necessary libraries
+
+```{r}
+library(tidyverse)
+library(tictoc)
+library(parallel)
+library(future.apply)
+library(furrr) 
+library(stopwords)
+library(quanteda)
+library(quanteda.textstats)
+```
+
+## Assess your own computer speed
+
+Our abilty to go parallel hinges on the number of CPU cores available to us. The simplest way to obtain this information from R is with the detectCores() function:
+
+```{r}
+detectCores()
+```
+
+This will indicate the number of CPU cores you have available on your computer to utilize and therefore how 'fast' your system can operate. You can adjust your expectations accordingly. 
+
+
+## Exercise 1: Tokenization- Serial implementation
+For this exercise we will use a dataset that contains the titles of 23,481 fake news in order to separate the text into smaller units called tokens and remove words commonly used in the English language, such as "the", "is" and "and".
+
+
+```{r}
+library(stopwords)
+library(quanteda)
+library(quanteda.textstats)
+
+data_ML<- read_csv('C:\\Users\\feror\\Downloads\\df_final (1).csv')
+tic()
+fake_news<-data_ML %>% filter(is_fake==1)
+mycorpus<-tokens(fake_news$text, 
+             remove_punct = TRUE, # this removes punctuation
+             remove_numbers = TRUE, # this removes digits
+             remove_symbol = TRUE)%>% 
+  tokens_remove(pattern = stopwords("en", source = "marimo"))
+toc()
+
+print(mycorpus[3])
+```
+
+## Question 1: Use the future package to evaluate the previous code in parallel
+```{r}
+##Write your CODE HERE
+```
+
+## Question 2: What can we conclude?
+```{r}
+##Write your answer here: 
+```
+
+## Exercise 2: "Iterate over multiple inputs with Purrr" 
+
+For this example we will use the "unvotes" package that provides data on the voting history of countries in the United Nations General Assembly. This package contains three datasets: un_votes, providing the history of each country’s votes, un_roll_calls, providing information on each roll call vote, and un_roll_call_issues, providing issue (topic) classifications of roll call votes.
+
+The first step is to create a function that takes country identifiers as well as a year_min argument as inputs and that returns the share of agreement in voting between any two specified countries as numeric value, for a time period specified with year >= year_min.
+
+Secondly, we used the unique codes of the countries to apply the function "map_dbl" and find out which three countries on average agreed the most with the US from a given year.
+
+
+```{r}
+plan(sequential)
+tic()
+votes_agreement_calculator <- function(year_min, country1 = "", country2 = ""){
+  
+# votes country1
+vote_decision_country1 <- unvotes::un_votes %>%
+  filter(country_code == country1) %>%
+  mutate(decision_country1 = vote) %>%
+  select(rcid, decision_country1)
+
+# votes country2
+vote_decision_country2 <- unvotes::un_votes %>%
+  filter(country_code == country2) %>%
+  mutate(decision_country2 = vote) %>%
+  select(rcid, decision_country2)
+
+# get the year when a resolution happened
+year_vote <- unvotes::un_roll_calls %>% 
+  select(date, rcid) %>% 
+  mutate(year = lubridate::year(date))
+
+# combine data frames
+un_votes_df <- 
+vote_decision_country1 %>%
+  left_join(vote_decision_country2, by = "rcid") %>%
+  left_join(year_vote, by = "rcid") %>%
+  filter(year >= year_min, !is.na(decision_country1), !is.na(decision_country2))
+
+# calculate level of agreement between two countries
+un_votes_df$agreement <- un_votes_df$decision_country1 == un_votes_df$decision_country2
+agreement_share <- prop.table(table(un_votes_df$agreement))[2]
+return(agreement_share)
+}
+
+country_codes_vec <- unvotes::un_votes %>% 
+  pull(country_code) %>% 
+  unique() %>% 
+  na.omit() %>%
+  as.character()
+
+agreement_scores <- map_dbl(country_codes_vec, ~ votes_agreement_calculator(year_min = 2000, country1 = "US", country2 = .x))
+toc()
+data.frame(ccode = country_codes_vec, agree_share = agreement_scores) %>% arrange(desc(agree_share)) %>% slice_head(n = 3)
+```
+
+## Question 1: Use the future package to evaluate the previous code in parallel
+```{r}
+##Write your CODE HERE
+```
+
+## Question 2: What can we conclude?
+```{r}
+##Write your answer here: 
+```
+
+
+## Exercise 3:Bootstrapping coefficient values for hypothesis testing (Serial implementation)
+
+For the last excersice we will create a fake data set (fake_data) and specifying a bootstrapping function (bootstrp()). This function will draw a sample of 10,000 observations from the the data set (with replacement), fit a regression, and then extract the coefficient on the x variable. 
+```{r}
+## Set seed (for reproducibility)
+set.seed(1234)
+# Set sample size
+n = 1e6
+tic()
+## Generate a large data frame of fake data for a regression
+  fake_data = 
+  tibble(x = rnorm(n), e = rnorm(n)) %>%
+  mutate(y = 3 + 2*x + e)
+
+## Function that draws a sample of 10,000 observations, runs a regression and
+## extracts the coefficient value on the x variable (should be around 2).
+bootstrp = 
+  function(i) {
+  ## Sample the data
+  sample_data = sample_n(fake_data, size = 1e4, replace = TRUE)
+  ## Run the regression on our sampled data and extract the extract the x
+  ## coefficient.
+  x_coef = lm(y ~ x, data = sample_data)$coef[2]
+  ## Return value
+  return(tibble(x_coef = x_coef))
+  }
+
+## 10,000-iteration simulation
+sim_serial = lapply(1:1e4, bootstrp) %>% bind_rows()
+toc(log = TRUE)
+head(sim_serial)
+```
+## Question 1: Use the future package to evaluate the previous code in parallel
+```{r}
+##Write your CODE HERE
+```
+
+## Question 2: What can we conclude?
+```{r}
+##Write your answer here: 
+```
+
+
