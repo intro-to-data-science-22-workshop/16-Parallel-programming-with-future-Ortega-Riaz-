@@ -1,4 +1,4 @@
-## Workshop materials on Parallel Programming (to update)
+## Workshop materials on Parallel Programming 
 
 
 ## Summary
@@ -7,24 +7,24 @@ This repository provides materials for a session that is part of the [I2DS Tools
 
 ### Session contents
 
-This session will introduce you to the modern data wrangling workflow with R and dplyr. Data wrangling is one of the core steps in the data science workflow. dplyr is a grammar of data manipulation, providing a consistent set of verbs that help you solve the most common data manipulation challenges, including the manipulation of datasets and variables. 
+This session will introduce you to Parallel Programming with the future package. Parallel programming is all about breaking down tasks into smaller tasks and executing them simultaneously. It’s a great tool for running large-scale projects quickly and accurately. Not all tasks are parallelizable though! The ideal parallelizable task would be one where little or no effort is needed to separate the problem into a number of parallel tasks.
 
 ### Main learning objectives
 
-The goals of this session are to (1) equip you with conceptual knowledge about the dplyr package and data wrangling workflow, (2) show you the three key verbs of the pacakge, and (3) provide you with practice material as well as some further readings.
+The goals of this session are to (1) equip you with conceptual knowledge about what parallel programming is, (2) Introduce you to the futures package and give some examples, and (3) provide you with practice material as well as some further readings.
 
 
 ## Instructors
 
-- Simon Munzert ([website](http://simonmunzert.github.io/), [twitter](https://twitter.com/simonsaysnothin))
-- Kermit the Frog ([website](https://en.wikipedia.org/wiki/Kermit_the_Frog), [twitter](https://twitter.com/KermitTheFrog))
+- Maria Fernanda Ortega
+- Danial Riaz
 
 
 ## Further resources
 
-- [dplyr overview at dplyr.tidyverse.org](https://dplyr.tidyverse.org/)
-- [Hands-on dplyr tutorial by Data School on YouTube](https://www.youtube.com/watch?v=jWjqLW-u3hc)
-- [R for Data Science book - part on data wrangling](https://r4ds.had.co.nz/wrangle-intro.html)
+- [Parallel Programming tutorial on Githack](https://raw.githack.com/uo-ec607/lectures/master/12-parallel/12-parallel.html)
+- [A Future for R: A Comprehensive Overview](https://cran.r-project.org/web/packages/future/vignettes/future-1-overview.html)
+- [Bryan Lewis introducing the foreach & future packages](https://www.rstudio.com/resources/rstudioconf-2020/parallel-computing-with-r-using-foreach-future-and-other-packages/)
 
 
 ## License
@@ -33,6 +33,4 @@ The material in this repository is made available under the [MIT license](http:/
 
 ## Statement of contributions
 
-**Simon Munzert** prepared the practice material and post-processed the recording.
-
-**Kermit the Frog** prepared the presentation slides and recording. He also provided an example to the practice material.
+**Maria Fernanda Ortega** and **Danial Riaz** prepared the presentation slides, practice material and the recording.
