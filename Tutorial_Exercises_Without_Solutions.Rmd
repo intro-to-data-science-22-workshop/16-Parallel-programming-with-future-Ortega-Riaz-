@@ -2,15 +2,12 @@
 title: "Tutorial Exercises_without_solutions"
 author: "Ma. Fernanda Ortega and Danial Riaz"
 date: "2022-11-16"
-output:
-    html_document:
-    toc: true
-    theme: united
+output: html_document
   
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
 ## Install necessary packages
@@ -26,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Load necessary libraries
+## Load necessary libraries :pushpin:
 
 ```{r}
 library(tidyverse)
@@ -37,11 +34,13 @@ library(furrr)
 library(stopwords)
 library(quanteda)
 library(quanteda.textstats)
+
+
 ```
 
 ## Assess your own computer speed
 
-Our abilty to go parallel hinges on the number of CPU cores available to us. The simplest way to obtain this information from R is with the detectCores() function:
+Our ability to go parallel hinges on the number of CPU cores available to us. The simplest way to obtain this information from R is with the detectCores() function:
 
 ```{r}
 detectCores()
@@ -55,20 +54,16 @@ For this exercise we will use a dataset that contains the titles of 23,481 fake 
 
 
 ```{r}
-library(stopwords)
-library(quanteda)
-library(quanteda.textstats)
 
-data_ML<- read_csv('C:\\Users\\feror\\Downloads\\df_final (1).csv')
+
+data_ML<- read_csv("C:/Users/feror/OneDrive/Documents/df_final_text.csv")## Download the file and choose your own path
 tic()
-fake_news<-data_ML %>% filter(is_fake==1)
-mycorpus<-tokens(fake_news$text, 
+mycorpus<-tokens(data_ML$text, 
              remove_punct = TRUE, # this removes punctuation
              remove_numbers = TRUE, # this removes digits
              remove_symbol = TRUE)%>% 
-  tokens_remove(pattern = stopwords("en", source = "marimo"))
+  tokens_remove(pattern = stopwords("en", source = "marimo")) 
 toc()
-
 print(mycorpus[3])
 ```
 

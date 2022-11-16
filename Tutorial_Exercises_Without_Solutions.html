@@ -373,36 +373,22 @@ pre code {
 #install.packages(&quot;quanteda&quot;)
 #install.packages(&quot;quanteda.textstats&quot;)</code></pre>
 </div>
-<div id="load-necessary-libraries" class="section level2">
-<h2>Load necessary libraries</h2>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.4.0     ✔ purrr   0.3.4
-## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
-## ✔ tidyr   1.2.1     ✔ stringr 1.4.1
-## ✔ readr   2.1.2     ✔ forcats 0.5.2
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(tictoc)
+<div id="load-necessary-libraries-pushpin" class="section level2">
+<h2>Load necessary libraries :pushpin:</h2>
+<pre class="r"><code>library(tidyverse)
+library(tictoc)
 library(parallel)
-library(future.apply)</code></pre>
-<pre><code>## Loading required package: future</code></pre>
-<pre class="r"><code>library(furrr) 
+library(future.apply)
+library(furrr) 
 library(stopwords)
-library(quanteda)</code></pre>
-<pre><code>## Package version: 3.2.3
-## Unicode version: 13.0
-## ICU version: 69.1
-## Parallel computing: 12 of 12 threads used.
-## See https://quanteda.io for tutorials and examples.</code></pre>
-<pre class="r"><code>library(quanteda.textstats)</code></pre>
+library(quanteda)
+library(quanteda.textstats)</code></pre>
 </div>
 <div id="assess-your-own-computer-speed" class="section level2">
 <h2>Assess your own computer speed</h2>
-<p>Our abilty to go parallel hinges on the number of CPU cores available
-to us. The simplest way to obtain this information from R is with the
-detectCores() function:</p>
+<p>Our ability to go parallel hinges on the number of CPU cores
+available to us. The simplest way to obtain this information from R is
+with the detectCores() function:</p>
 <pre class="r"><code>detectCores()</code></pre>
 <pre><code>## [1] 12</code></pre>
 <p>This will indicate the number of CPU cores you have available on your
@@ -415,37 +401,22 @@ You can adjust your expectations accordingly.</p>
 23,481 fake news in order to separate the text into smaller units called
 tokens and remove words commonly used in the English language, such as
 “the”, “is” and “and”.</p>
-<pre class="r"><code>library(stopwords)
-library(quanteda)
-library(quanteda.textstats)
-
-data_ML&lt;- read_csv(&#39;C:\\Users\\feror\\Downloads\\df_final (1).csv&#39;)</code></pre>
-<pre><code>## New names:
-## Rows: 44898 Columns: 9
-## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
-## (7): title, text, subject, date, tokenized_title, stopwords_removed_titl... dbl
-## (2): ...1, is_fake
-## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## • `` -&gt; `...1`</code></pre>
-<pre class="r"><code>tic()
-fake_news&lt;-data_ML %&gt;% filter(is_fake==1)
-mycorpus&lt;-tokens(fake_news$text, 
+<pre class="r"><code>data_ML&lt;- read_csv(&quot;C:/Users/feror/OneDrive/Documents/df_final_text.csv&quot;)## Download the file and choose your own path
+tic()
+mycorpus&lt;-tokens(data_ML$text, 
              remove_punct = TRUE, # this removes punctuation
              remove_numbers = TRUE, # this removes digits
              remove_symbol = TRUE)%&gt;% 
-  tokens_remove(pattern = stopwords(&quot;en&quot;, source = &quot;marimo&quot;))</code></pre>
-<pre><code>## Warning: NA is replaced by empty string</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## 17.44 sec elapsed</code></pre>
+  tokens_remove(pattern = stopwords(&quot;en&quot;, source = &quot;marimo&quot;)) 
+toc()</code></pre>
+<pre><code>## 28.7 sec elapsed</code></pre>
 <pre class="r"><code>print(mycorpus[3])</code></pre>
 <pre><code>## Tokens consisting of 1 document.
 ## text3 :
-##  [1] &quot;revealed&quot;   &quot;former&quot;     &quot;Milwaukee&quot;  &quot;Sheriff&quot;    &quot;David&quot;     
-##  [6] &quot;Clarke&quot;     &quot;considered&quot; &quot;Homeland&quot;   &quot;Security&quot;   &quot;Secretary&quot; 
-## [11] &quot;Donald&quot;     &quot;Trump&quot;     
-## [ ... and 323 more ]</code></pre>
+##  [1] &quot;WASHINGTON&quot;    &quot;Reuters&quot;       &quot;special&quot;       &quot;counsel&quot;      
+##  [5] &quot;investigation&quot; &quot;links&quot;         &quot;Russia&quot;        &quot;President&quot;    
+##  [9] &quot;Trump&#39;s&quot;       &quot;election&quot;      &quot;campaign&quot;      &quot;continue&quot;     
+## [ ... and 230 more ]</code></pre>
 <div id="question-1-use-the-future-package-to-evaluate-the-previous-code-in-parallel" class="section level4">
 <h4>Question 1: Use the future package to evaluate the previous code in
 parallel</h4>
@@ -513,7 +484,7 @@ country_codes_vec &lt;- unvotes::un_votes %&gt;%
 
 agreement_scores &lt;- map_dbl(country_codes_vec, ~ votes_agreement_calculator(year_min = 2000, country1 = &quot;US&quot;, country2 = .x))
 toc()</code></pre>
-<pre><code>## 15.87 sec elapsed</code></pre>
+<pre><code>## 17.32 sec elapsed</code></pre>
 <pre class="r"><code>data.frame(ccode = country_codes_vec, agree_share = agreement_scores) %&gt;% arrange(desc(agree_share)) %&gt;% slice_head(n = 3)</code></pre>
 <pre><code>##   ccode agree_share
 ## 1    IL   0.7947720
@@ -563,7 +534,7 @@ bootstrp =
 ## 10,000-iteration simulation
 sim_serial = lapply(1:1e4, bootstrp) %&gt;% bind_rows()
 toc(log = TRUE)</code></pre>
-<pre><code>## 114.69 sec elapsed</code></pre>
+<pre><code>## 118 sec elapsed</code></pre>
 <pre class="r"><code>head(sim_serial)</code></pre>
 <pre><code>## # A tibble: 6 × 1
 ##   x_coef
